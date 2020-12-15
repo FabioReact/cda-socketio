@@ -9,7 +9,11 @@ const port = 3000
 // Création de notre application
 const app = express()
 const server = http.createServer(app)
-const io = socketio(server)
+const io = socketio(server, {
+	cors: {
+		origin: "http://localhost:4000",
+	}
+})
 
 app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/index.html")
@@ -18,6 +22,9 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
 	console.log("Un nouveau client vient de se connecter")
 	socket.send("Welcome from server")
+
+	// Emit me sert à émettre un évènement particulier
+	io.emit("newConnection")
 
 	// Ecoute de l'evenement "chat message" - msg contient la data que le client a envoyé lors de "socket.emit"
 	socket.on("chat message", msg => {
@@ -32,6 +39,7 @@ io.on("connection", (socket) => {
 	// Cette fonction s'éxécutera lors de la déconnexion de l'utilisateur
 	socket.on("disconnect", () => {
 		console.log("Un client vient de se déconnecter")
+		io.emit("newDeconnection")
 	})
 })
 

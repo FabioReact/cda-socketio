@@ -33,6 +33,15 @@
         console.log(data)
       })
 
+      // Ecoute de l'évènement "newConnection"
+      socket.on("newConnection", () => {
+        ul.innerHTML += "<li style='color: darkgreen'>Un nouvel utilisateur a rejoint la conversation</li>"
+      })
+
+      socket.on("newDeconnection", () => {
+        ul.innerHTML += "<li style='color: red'>Un utilisateur vient de se déconnecter</li>"
+      })
+
       // Evenement executé lorsque notre client se connecte au serveur
       socket.on("connect", () => {
         console.log("Bienvenue (en provenance du client)")
