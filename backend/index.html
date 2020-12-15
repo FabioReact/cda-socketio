@@ -15,12 +15,42 @@
   </head>
   <body>
     <ul id="messages"></ul>
-    <form action="">
+    <form>
       <input id="m" autocomplete="off" /><button>Send</button>
 		</form>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			const socket = io()
+      // Séléction des éléments html
+      const input = document.querySelector("#m")
+      const form = document.querySelector("form")
+      const ul = document.querySelector("#messages")
+
+      // Connexion au serveur
+      const socket = io()
+
+      // Ecoute de l'évènement "message" (envoyé par la méthode "send" du serveur)
+      socket.on("message", data => {
+        console.log(data)
+      })
+
+      // Evenement executé lorsque notre client se connecte au serveur
+      socket.on("connect", () => {
+        console.log("Bienvenue (en provenance du client)")
+      })
+
+      // Ecoute de l'évènement "chat message" provenant du serveur
+      socket.on("chat message", msg => {
+        // Ajout d'un li contenant le message reçu par le serveur
+        ul.innerHTML += `<li>${msg}</li>`
+      })
+
+      // Traitement pour l'envoi d'un message au serveur via notre formulaire
+      form.addEventListener("submit", function(e) {
+        e.preventDefault()
+        // Envoi de l'evenement "chat message au serveur"
+        socket.emit("chat message", input.value)
+        input.value = ""
+      })
 		</script>
   </body>
 </html>

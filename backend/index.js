@@ -17,6 +17,22 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
 	console.log("Un nouveau client vient de se connecter")
+	socket.send("Welcome from server")
+
+	// Ecoute de l'evenement "chat message" - msg contient la data que le client a envoyé lors de "socket.emit"
+	socket.on("chat message", msg => {
+		console.log(`Message reçu: ${msg}`)
+		// io.emit Envoi un message à tout le monde
+		// socket.broadcast.emit Envoi un message à tout le monde SAUF au socket à l'origine de l'évènement (tout le monde sauf "moi")
+
+		// J'envoie l'évènement "chat message" à tout les clients connectés
+		io.emit("chat message", msg)
+	})
+
+	// Cette fonction s'éxécutera lors de la déconnexion de l'utilisateur
+	socket.on("disconnect", () => {
+		console.log("Un client vient de se déconnecter")
+	})
 })
 
 server.listen(port, () => {
