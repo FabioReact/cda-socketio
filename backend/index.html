@@ -48,9 +48,9 @@
       })
 
       // Ecoute de l'évènement "chat message" provenant du serveur
-      socket.on("chat message", msg => {
+      socket.on("chat message", msgObj => {
         // Ajout d'un li contenant le message reçu par le serveur
-        ul.innerHTML += `<li>${msg}</li>`
+        ul.innerHTML += `<li>${msgObj.date} - ${msgObj.message}</li>`
       })
 
       // Traitement pour l'envoi d'un message au serveur via notre formulaire

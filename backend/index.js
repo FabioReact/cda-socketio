@@ -33,7 +33,12 @@ io.on("connection", (socket) => {
 		// socket.broadcast.emit Envoi un message à tout le monde SAUF au socket à l'origine de l'évènement (tout le monde sauf "moi")
 
 		// J'envoie l'évènement "chat message" à tout les clients connectés
-		io.emit("chat message", msg)
+		const date = new Date()
+		const time = `${date.getHours()}.${date.getMinutes()}` 
+		io.emit("chat message", {
+			message: msg,
+			date: time // équivalent à juste écrire "date" car la clé et la valeur sont identiques
+		})
 	})
 
 	// Cette fonction s'éxécutera lors de la déconnexion de l'utilisateur

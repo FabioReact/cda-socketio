@@ -3,25 +3,24 @@ import { io } from 'socket.io-client'
 
 function App() {
   const [messages, setMessages] = useState([])
-  const socket = io("http://localhost:3000")
 
-  socket.once("message", data => {
-    console.log(data)
-  })
-
-  socket.once("chat message", msg => {
-    setMessages(messages => [...messages, msg])
-  })
-
-  // useEffect(() => {
-    
-  // }, [])
+  useEffect(() => {
+    const socket = io("http://localhost:3000")
+  
+    socket.on("message", data => {
+      console.log(data)
+    })
+  
+    socket.on("chat message", msg => {
+      setMessages(messages => [...messages, msg])
+    })
+  }, [])
 
   return (
     <div>
       Frontend Socket.io
       <ul>
-        {messages.map((message, index) => <li key={index}>{message}</li>)}
+        {messages.map((msgObj, index) => <li key={index}>{msgObj.date} - {msgObj.message}</li>)}
       </ul>
     </div>
   );
