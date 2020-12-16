@@ -1,29 +1,36 @@
-import { useState, useEffect } from "react"
-import { io } from 'socket.io-client'
+import { useState } from "react"
+import Login from "./pages/Login"
+import Chat from "./pages/Chat"
 
-function App() {
-  const [messages, setMessages] = useState([])
+const App = () => {
+	const [username, setUsername] = useState("")
+	const [submit, setSubmit] = useState(false)
 
-  useEffect(() => {
-    const socket = io("http://localhost:3000")
-  
-    socket.on("message", data => {
-      console.log(data)
-    })
-  
-    socket.on("chat message", msg => {
-      setMessages(messages => [...messages, msg])
-    })
-  }, [])
+	/*
+		En français:
+		Il faudra afficher le chat lorsqu'il aura choisis un username et qu'il aura cliqué sur "Join"
+		
+		En pseudo-code:
+		SI username = true ET bouttonCliqué = true
+		ALORS affiche Chat
+	*/
 
-  return (
-    <div>
-      Frontend Socket.io
-      <ul>
-        {messages.map((msgObj, index) => <li key={index}>{msgObj.date} - {msgObj.message}</li>)}
-      </ul>
-    </div>
-  );
+	return (
+		<>
+			<h1>Mon application</h1>
+
+			{}
+			{username.length && submit ? (
+				<Chat username={username} />
+			) : (
+				<Login
+					username={username}
+					setUsername={setUsername}
+					setSubmit={() => setSubmit(true)}
+				/>
+			)}
+		</>
+	)
 }
 
-export default App;
+export default App
