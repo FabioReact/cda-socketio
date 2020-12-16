@@ -30,7 +30,7 @@ function Chat(props) {
 		})
 
 		socket.on("newConnection", () => {
-			console.log("Nouvelle connection")
+			// console.log("Nouvelle connection")
 			setMessages(messages => [
 				...messages,
 				{

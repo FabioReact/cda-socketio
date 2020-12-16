@@ -4,7 +4,10 @@ import Chat from "./pages/Chat"
 
 const App = () => {
 	const [username, setUsername] = useState("")
+	const [room, setRoom] = useState("")
 	const [submit, setSubmit] = useState(false)
+
+	// Dans le composant App, je dois savoir quelle salle a été séléctionnée
 
 	/*
 		En français:
@@ -17,13 +20,15 @@ const App = () => {
 
 	return (
 		<>
-			<h1>Mon application</h1>
+			<h1>Mon application: Username: {username} - Room: {room}</h1>
 
 			{}
 			{username.length && submit ? (
 				<Chat username={username} />
 			) : (
 				<Login
+					room={room}
+					setRoom={setRoom}
 					username={username}
 					setUsername={setUsername}
 					setSubmit={() => setSubmit(true)}

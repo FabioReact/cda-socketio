@@ -23,8 +23,16 @@ io.on("connection", (socket) => {
 	console.log("Un nouveau client vient de se connecter")
 	socket.send("Welcome from server")
 
+
+	// Documentation sur les "rooms": https://socket.io/docs/v3/rooms/
+	// Join me sert à rejoindre la room passée en paramètre
+	socket.join("react")
+
+	// Je peux emmettre des évènements vers une "room" en particulier avec la méthode .to("nom de la room")
+	// io.to("react").emit("")
+
 	// Emit me sert à émettre un évènement particulier
-	io.emit("newConnection")
+	io.to("react").emit("newConnection")
 
 	// Ecoute de l'evenement "chat message" - msg contient la data que le client a envoyé lors de "socket.emit"
 	socket.on("chat message", msgObj => {

@@ -1,5 +1,7 @@
 const Login = props => {
-	const { username, setUsername, setSubmit } = props
+	const { username, setUsername, setSubmit, room, setRoom } = props
+	const rooms = ["react", "node", "git", "c#"]
+
 
 	const onSubmitForm = (event) => {
 		event.preventDefault()
@@ -17,6 +19,9 @@ const Login = props => {
 				onChange={e => setUsername(e.target.value)}
 			/>
 			<button>Join</button>
+			<ul>
+				{rooms.map((room, index) => <li onClick={() => setRoom(room)} key={index}>{room}</li>)}
+			</ul>
 		</form>
 	)
 }
